@@ -21,7 +21,8 @@ post_model = api.model(
     {
         "id": fields.Integer(),
         "title": fields.String(),
-        "content": fields.String()
+        "content": fields.String(),
+        "user_id": fields.Integer()
     }
 )
 
@@ -61,17 +62,20 @@ class PostResource(Resource):
         return jsonify({
             "message": f"Post: {title} has been posted."
         })
-    
-@api.route("/posts/<int:id>")
-class PostsResource(Resource):
+
+@api.route("/posts/<int:user_id>")
+class GetPostResource(Resource):
     @api.marshal_list_with(post_model)
     # Get all posts by a user
-    def get(self, id):
-        get_posts = Post.query.filter_by(id=id).all()
-
+    def get(self, user_id):
+        get_posts = Post.query.filter_by(user_id=user_id).all()
         return get_posts
-    
-    # Gte one post by its id
+
+
+
+@api.route("/posts/<int:id>")
+class PostsResource(Resource):    
+    # Get one post by its id
     def get(self, id):
         get_post = Post.query.get_or_404(id)
 
