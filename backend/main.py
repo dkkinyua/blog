@@ -45,15 +45,8 @@ class HelloResource(Resource):
 
         return message
     
-@api.route("/posts")
+@api.route("/post")
 class PostResource(Resource):
-    # Get all posts [in a list]
-    @api.marshal_list_with(post_model)
-    def get(self):
-        get_posts = Post.query.all()
-
-        return get_posts
-    
     @api.marshal_with(post_model)
     @api.expect(post_model)
     def post(self):
@@ -67,6 +60,44 @@ class PostResource(Resource):
         new_post.save()
         return jsonify({
             "message": f"Post: {title} has been posted."
+        })
+    
+@api.route("/posts/<int:id>")
+class PostsResource(Resource):
+    @api.marshal_list_with(post_model)
+    # Get all posts by a user
+    def get(self, id):
+        get_posts = Post.query.filter_by(id=id).all()
+
+        return get_posts
+    
+    # Gte one post by its id
+    def get(self, id):
+        get_post = Post.query.get_or_404(id)
+
+        return get_post
+    
+    # Update a post
+    def put(self, id):
+        update_post = Post.query.get_or_404(id)
+        data = request.get_json()
+
+        update_post.update(
+            title = data.get("title"),
+            content = data.get("content")
+        )
+
+        return jsonify({
+            "message": "Post has been updated."
+        })
+    
+    def delete(self, id):
+        delete_post = Post.query.get_or_404(id)
+
+        delete_post.delete()
+
+        return jsonify({
+            "message": "Post deleted."
         })
     
 @app.shell_context_processor()
