@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 import os
 
+load_dotenv()
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 
 class Config():

@@ -15,7 +15,7 @@ class User(db.Model):
     # Functions to save this user to the db, and delete the user from the db
 
     def save(self):
-        db.session.add()
+        db.session.add(self)
         db.session.commit()
 
     def delete(self):
@@ -49,6 +49,6 @@ class Post(db.Model):
         db.session.delete(self)
         db.session.commit()
 
-        
+
     
      
