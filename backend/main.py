@@ -157,7 +157,7 @@ class LoginResource(Resource):
         
 # Refresh tokens route
 @api.route("/refresh-token")
-class RefreshTokenResource(Resource);
+class RefreshTokenResource(Resource):
     @jwt_required(refresh=True)
     def post(self):
         current_user = get_jwt_identity()
