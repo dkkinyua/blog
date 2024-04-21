@@ -84,12 +84,17 @@ class GetPostResource(Resource):
 @api.route("/posts/<int:id>")
 class PostsResource(Resource):    
     # Get one post by its id
+    @jwt_required()
+    @api.marshal_with(post_model)
     def get(self, id):
         get_post = Post.query.get_or_404(id)
 
         return get_post
     
     # Update a post
+    @jwt_required()
+    @api.marshal_with(post_model)
+    @api.expect(post_model)
     def put(self, id):
         update_post = Post.query.get_or_404(id)
         data = request.get_json()
@@ -102,7 +107,8 @@ class PostsResource(Resource):
         return jsonify({
             "message": "Post has been updated."
         })
-    
+    @jwt_required()
+    @api.marshal_with(post_model)
     def delete(self, id):
         delete_post = Post.query.get_or_404(id)
 
@@ -112,6 +118,7 @@ class PostsResource(Resource):
             "message": "Post deleted."
         })
 
+# Signup route and logic
 @api.route("/login")
 class SignupResource(Resource):
     @api.expect(user_model)
@@ -130,6 +137,7 @@ class SignupResource(Resource):
             }
         ), 201)
 
+# Login routes and logic
 @api.route("/login", methods=["POST"])
 class LoginResource(Resource):
     def post(self):
@@ -146,6 +154,19 @@ class LoginResource(Resource):
                 "access_token": access_token,
                 "refresh_token": refresh_token
             })
+        
+# Refresh tokens route
+@api.route("/refresh-token")
+class RefreshTokenResource(Resource);
+    @jwt_required(refresh=True)
+    def post(self):
+        current_user = get_jwt_identity()
+        access_token = create_access_token(identity=current_user)
+
+        return make_response(jsonify({
+            "access_token": access_token
+        }), 200)
+
     
 @app.shell_context_processor
 def make_shell_context():
