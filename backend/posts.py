@@ -40,11 +40,9 @@ class PostResource(Resource):
         )
 
         new_post.save()
-        return make_response(jsonify({
-            "message": f"Post: {title} has been posted."
-        }), 201)
+        return new_post, 201
 
-@post_namespace.route("/posts/<int:user_id>")
+@post_namespace.route("/post/<int:user_id>")
 class GetPostResource(Resource):
     @jwt_required()
     @post_namespace.marshal_list_with(post_model)
@@ -91,3 +89,7 @@ class PostsResource(Resource):
         return jsonify({
             "message": "Post deleted."
         })
+
+
+
+
