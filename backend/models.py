@@ -6,7 +6,6 @@ class User(db.Model):
     username = db.Column(db.String(20), nullable=False, unique=True)
     email = db.Column(db.String(50), nullable=False, unique=True)
     password = db.Column(db.String(), nullable=False)
-    image_file = db.Column(db.String(50))
     posts = db.relationship('Post', backref='author', lazy=True)
 
     def __repr__(self):
