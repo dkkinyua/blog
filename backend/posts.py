@@ -76,11 +76,10 @@ class PostsResource(Resource):
             content = data.get("content")
         )
 
-        return jsonify({
-            "message": "Post has been updated."
-        })
+        return update_post
     @jwt_required()
     @post_namespace.marshal_with(post_model)
+    @post_namespace.expect(post_model)
     def delete(self, id):
         delete_post = Post.query.get_or_404(id)
 
@@ -88,7 +87,7 @@ class PostsResource(Resource):
 
         return jsonify({
             "message": "Post deleted."
-        })
+        }), 200
 
 
 
