@@ -77,6 +77,7 @@ class PostsResource(Resource):
         )
 
         return update_post
+    
     @jwt_required()
     @post_namespace.marshal_with(post_model)
     @post_namespace.expect(post_model)

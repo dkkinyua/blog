@@ -35,7 +35,6 @@ class SignupResource(Resource):
                     }
             )
     
-        
         new_user = User(
             username = data.get("username"),
             email = data.get("email"),
