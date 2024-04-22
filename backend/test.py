@@ -48,6 +48,33 @@ class AppTestCase(unittest.TestCase):
 
         self.assertEqual(status_code, 200)
 
+    # Test on posting a post /posts/post
+    def test_post(self):
+        signup_response = self.client.post("/auth/signup", json = {
+            "username": "testuser2",
+            "email": "testcontent2@company.com",
+            "password": "password"
+        })
+
+        login_response = self.client.post("/auth/login", json={
+            "username": "testuser2",
+            "password": "password"
+        })
+
+        access_token = login_response.json['access_token']
+        header = {
+            "Authorization": f"Bearer {access_token}"
+        }
+
+        test_post = {
+            "title": "Test Post",
+            "content": "This is a test post"
+        }
+
+        test_response = self.client.post("/posts/post", json=test_post, headers=header)
+        status_code = test_response.status_code
+
+        self.assertEqual(status_code, 201)
     
     # Tears down the content in the test.db after running tests
     def tearDown(self):
