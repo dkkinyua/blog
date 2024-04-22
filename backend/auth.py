@@ -28,24 +28,26 @@ class SignupResource(Resource):
         db_email = User.query.filter_by(email=email).first()
         db_user = User.query.filter_by(username=username).first()
 
-        if not db_email and db_user:
-            new_user = User(
-                username = data.get("username"),
-                email = data.get("email"),
-                password = generate_password_hash(data.get("password"))
+        if db_user and db_email is not None:
+            return jsonify(
+                    {
+                        "message": f"User {username} exists"
+                    }
             )
-            new_user.save()
-            return make_response(jsonify(
-                {
-                    "message": f"User {username} has been created."
-                }
-            ), 201)
-        else:
-            return jsonify (
-                {
-                    "message": "User or email exists, try another username or email."
-                }
-            )
+    
+        
+        new_user = User(
+            username = data.get("username"),
+            email = data.get("email"),
+            password = generate_password_hash(data.get("password"))
+        )
+        new_user.save()
+        return make_response(jsonify(
+            {
+                "message": f"User {username} has been created."
+            }
+        ), 201)
+        
 
 # Login routes and logic
 @auth_namespace.route("/login", methods=["POST"])

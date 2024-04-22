@@ -19,12 +19,40 @@ class AppTestCase(unittest.TestCase):
         status_code = hello_response.status_code
 
         self.assertEqual(status_code, 200)
+
+    # Test on /auth/signup
+    def test_signup(self):
+        test_user = {
+            "username": "testuser2",
+            "email": "testcontent2@company.com",
+            "password": "password"
+        }
+        test_response = self.client.post("/auth/signup", json=test_user)
+        status_code = test_response.status_code
+
+        self.assertEqual(status_code, 201)
+    
+    def test_login(self):
+        test_user = {
+            "username": "testuser2",
+            "email": "testcontent2@company.com",
+            "password": "password"
+        }
+
+        login_response = self.client.post("/auth/login", json={
+            "username": "testuser2",
+            "password": "password"
+        })
+
+        status_code = login_response.status_code
+
+        self.assertEqual(status_code, 200)
+
     
     # Tears down the content in the test.db after running tests
     def tearDown(self):
         with self.app.app_context():
-            db.session.remove()
-            db.session.commit()
+            db.drop_all()
 
 
 # Runs the test, just like app.run()
