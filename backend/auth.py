@@ -70,7 +70,7 @@ class LoginResource(Resource):
             )
         
 # Refresh tokens route
-@auth_namespace.route("/refresh-token")
+@auth_namespace.route("/refresh")
 class RefreshTokenResource(Resource):
     @jwt_required(refresh=True)
     def post(self):
@@ -80,3 +80,5 @@ class RefreshTokenResource(Resource):
         return make_response(jsonify({
             "access_token": access_token
         }), 200)
+
+

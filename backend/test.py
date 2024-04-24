@@ -141,7 +141,32 @@ class AppTestCase(unittest.TestCase):
         delete_response = self.client.delete(f"/posts/posts/{id}", headers=header)
 
         status_code = delete_response.status_code
-        self.assertEqual(status_code, 200)       
+        self.assertEqual(status_code, 200)
+
+    # Test on refreshing tokens
+    def test_refresh(self):
+        signup_response = self.client.post("/auth/signup", json = {
+            "username": "testuser2",
+            "email": "testcontent2@company.com",
+            "password": "password"
+        })
+
+        login_response = self.client.post("/auth/login", json={
+            "username": "testuser2",
+            "password": "password"
+        })
+
+        refresh_token = login_response.json['refresh_token']
+        header = {
+            "Authorization": f"Bearer {refresh_token}"
+        }
+
+        refresh_response = self.client.post("/auth/refresh", headers=header)
+
+        status_code = refresh_response.status_code
+
+        self.assertEqual(status_code, 200)
+        
 
     # Tears down the content in the test.db after running tests
     def tearDown(self):
