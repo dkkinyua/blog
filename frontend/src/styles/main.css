@@ -2,3 +2,7 @@
     margin: auto;
     width: 85%;
 }
+
+.errors {
+    color: red;
+}

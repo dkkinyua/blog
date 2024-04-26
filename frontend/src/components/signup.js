@@ -7,8 +7,8 @@ const Signup = () => {
 
     const { register, reset, watch, handleSubmit, formState: { errors } } = useForm()
 
-    const submitForm = () => {
-        console.log("Form submitted")
+    const submitForm = (data) => {
+        console.log(data)
         reset()
     }
     return (
@@ -23,7 +23,9 @@ const Signup = () => {
                         <Form.Control type='text' placeholder='Username'
                             {...register("username", { required: true, maxLength: 25 })}
                         />
-                        {errors.username && <span>Username is required</span>}
+                        {errors.username && <span className='errors'>Username is required</span>}
+                        <br/>
+                        {errors.username &&  errors.username.type === "maxLength" && <span className='errors'>You've reached the maximum amount of characters(25).</span>}
                     </Form.Group>
                     <Form.Group className='mt-2'>
                         <Form.Label>Email Address:</Form.Label>
@@ -33,21 +35,26 @@ const Signup = () => {
                         <Form.Text className='text-muted'>
                             We'll never share your email with other apps
                         </Form.Text>
-                        {errors.email && <span>Email is required</span>}
+                        <br />
+                        {errors.email && <span className='errors'>Email is required</span>}
                     </Form.Group>
                     <Form.Group className='mt-2'>
                         <Form.Label>Password:</Form.Label>
                         <Form.Control type='password' placeholder='Password'
                             {...register("password", { required: true, minLength: 8 })}
                         />
-                        {errors.password && <span>Password is required</span>}
+                        {errors.password && <span className='errors'>Password is required</span>}
+                        <br />
+                        {errors.password && errors.password.type === "minLength" && <span className='errors'>Minimum characters required are 8.</span>}
                     </Form.Group>
                     <Form.Group className='mt-2'>
                         <Form.Label>Confirm your password:</Form.Label>
                         <Form.Control type='password' placeholder='Confirm password'
                             {...register("confirmPassword", { required: true, minLength: 8 })}
                         />
-                        {errors.confirmPassword && <span>This field is required</span>}
+                        {errors.confirmPassword && <span className='errors'>This field is required</span>}
+                        <br />
+                        {errors.confirmPassword && errors.confirmPassword.type === "minLength" && <span className='errors'>Minimum characters required are 8.</span>}
                     </Form.Group>
                     <Form.Group className='mt-2'>
                         <Button as='sub' variant='primary' onClick={handleSubmit(submitForm)}>Sign Up</Button>

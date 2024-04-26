@@ -31,7 +31,7 @@ const Login = () => {
                     <Form.Group className='mt-2'>
                         <Form.Text>Don't have an account?</Form.Text>
                         <br/>
-                        <Link to='/login'>Sign in here.</Link>
+                        <Link to='/signup'>Sign in here.</Link>
                     </Form.Group>
                 </form>
             </div>
