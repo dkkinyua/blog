@@ -19,18 +19,18 @@ function Navbar() {
                 <div className={`collapse navbar-collapse ${isNavbarCollapsed ? '' : 'show'}`} id="navbarNav">
                     <ul className="navbar-nav me-auto">
                         <li className="nav-item">
-                            <Link className="nav-link active" aria-current="page" to="#">Home</Link>
+                            <Link className="nav-link active" aria-current="page" to="/">Home</Link>
                         </li>
                     </ul>
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <Link className="nav-link" to="#">Login</Link>
+                            <Link className="nav-link" to="/login">Login</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="#">Signup</Link>
+                            <Link className="nav-link" to="/signup">Signup</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="#">Create Post</Link>
+                            <Link className="nav-link" to="/posts">Create Post</Link>
                         </li>
                     </ul>
                 </div>
