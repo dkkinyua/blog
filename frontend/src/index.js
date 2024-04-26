@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "./styles/main.css"
 
 import NavBar from "./components/navbar";
 import Signup from "./components/signup";
