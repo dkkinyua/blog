@@ -8,8 +8,30 @@ const Signup = () => {
     const { register, reset, watch, handleSubmit, formState: { errors } } = useForm()
 
     const submitForm = (data) => {
-        console.log(data)
-        reset()
+        if (data.password === data.confirmPassword) {
+            const body = {
+                username : data.username,
+                email : data.email,
+                password : data.password
+            }
+            const requestOptions = {
+                methods: "POST",
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify(body)
+            }
+
+            fetch("/auth/signup", requestOptions)
+            .then(res => res.json())
+            .then(data => console.log(data))
+            .catch(err => console.log(err))
+
+            reset()
+        }
+        else {
+            alert("Passwords do not match.")
+        }
     }
     return (
         <div className='container'>
