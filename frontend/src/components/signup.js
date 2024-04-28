@@ -9,7 +9,7 @@ const Signup = () => {
 
     const submitForm = (data) => {
         if (data.password === data.confirmPassword) {
-            
+
             const body = {
                 username : data.username,
                 email : data.email,
@@ -36,7 +36,7 @@ const Signup = () => {
         }
     }
     return (
-        <div className='container'>
+        <div className='container-class'>
             <div className='form'>
                 <h1>
                     Sign Up Here.
