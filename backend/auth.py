@@ -28,10 +28,17 @@ class SignupResource(Resource):
         db_email = User.query.filter_by(email=email).first()
         db_user = User.query.filter_by(username=username).first()
 
-        if db_user and db_email is not None:
+        if db_user is not None:
             return jsonify(
                     {
-                        "message": f"User {username} exists"
+                        "message": f"Oops, a user has already created an account with {username}. Try using another username"
+                    }
+            )
+        
+        if db_email is not None:
+            return jsonify(
+                    {
+                        "message": f"Oops, a user has already created an email with {email}. Try using another email."
                     }
             )
     

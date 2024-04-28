@@ -9,13 +9,15 @@ const Signup = () => {
 
     const submitForm = (data) => {
         if (data.password === data.confirmPassword) {
+            
             const body = {
                 username : data.username,
                 email : data.email,
                 password : data.password
             }
+
             const requestOptions = {
-                methods: "POST",
+                method: "POST",
                 headers: {
                     "content-type": "application/json"
                 },
