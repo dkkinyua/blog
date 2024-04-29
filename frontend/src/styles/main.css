@@ -1,5 +1,14 @@
-.container-class {
+.signup-container-class {
     background: linear-gradient(to right, #007bff, #6c757d); /* Blue to Grey gradient */
+    background-size: cover; /* Cover the entire container */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container-class {
+    background: linear-gradient(to right, #191970, #6c757d); /* Blue to Grey gradient */
     background-size: cover; /* Cover the entire container */
     height: 100vh;
     display: flex;
@@ -10,7 +19,7 @@
 
 .form {
     background-color: #ffffff; /* White background for the form */
-    border-radius: 10px;
+    border-radius: 15px;
     padding: 20px;
     width: 400px;
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5); /* Grey box shadow */
@@ -23,4 +32,11 @@
 
 .errors {
     color: red; /* Red color for error messages */
+}
+
+.content-container-class {
+    background: linear-gradient(to right, #007bff, #6c757d);
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 10px;
 }

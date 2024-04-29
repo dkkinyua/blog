@@ -11,7 +11,7 @@ const Login = () => {
         console.log("Form Submitted.")
     }
     return (
-        <div className='container-class mt-3'>
+        <div className='login-container-class mt-3'>
             <div className='form'>
                 <h2>
                     Login Here
