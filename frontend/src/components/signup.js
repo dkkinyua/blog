@@ -1,19 +1,21 @@
-import React from 'react'
-import { Form, Button } from 'react-bootstrap'
+import React, { useState } from 'react'
+import { Alert, Form, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 
 const Signup = () => {
 
-    const { register, reset, watch, handleSubmit, formState: { errors } } = useForm()
+    const { register, reset, handleSubmit, formState: { errors } } = useForm()
+    const [show, setShow] = useState()
+    const [serverResponse, setServerResponse] = useState("")
 
     const submitForm = (data) => {
         if (data.password === data.confirmPassword) {
 
             const body = {
-                username : data.username,
-                email : data.email,
-                password : data.password
+                username: data.username,
+                email: data.email,
+                password: data.password
             }
 
             const requestOptions = {
@@ -25,9 +27,12 @@ const Signup = () => {
             }
 
             fetch("/auth/signup", requestOptions)
-            .then(res => res.json())
-            .then(data => console.log(data))
-            .catch(err => console.log(err))
+                .then(res => res.json())
+                .then(data => {
+                    setServerResponse(data.message)
+                    setShow(true)
+                })
+                .catch(err => console.log(err))
 
             reset()
         }
@@ -38,9 +43,21 @@ const Signup = () => {
     return (
         <div className='signup-container-class'>
             <div className='form mt-3'>
-                <h1>
-                    Sign Up Here.
-                </h1>
+                {show ?
+                    <>
+                        <Alert variant="success" onClose={() => setShow(false)} dismissible>
+                            <Alert.Heading>{serverResponse}</Alert.Heading>
+                            <p>You can now log in.</p>
+                        </Alert>
+                        <h1>
+                            Sign Up Here.
+                        </h1>
+                    </>
+                    :
+                    <h1>
+                        Sign Up Here.
+                    </h1>
+                }
                 <Form>
                     <Form.Group className='mt-2'>
                         <Form.Label>Username:</Form.Label>
@@ -48,8 +65,8 @@ const Signup = () => {
                             {...register("username", { required: true, maxLength: 25 })}
                         />
                         {errors.username && <span className='errors'>Username is required</span>}
-                        <br/>
-                        {errors.username &&  errors.username.type === "maxLength" && <span className='errors'>You've reached the maximum amount of characters(25).</span>}
+                        <br />
+                        {errors.username && errors.username.type === "maxLength" && <span className='errors'>You've reached the maximum amount of characters(25).</span>}
                     </Form.Group>
                     <Form.Group className='mt-2'>
                         <Form.Label>Email Address:</Form.Label>
