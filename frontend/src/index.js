@@ -27,7 +27,6 @@ const App = () => {
         .catch(err => console.log(err))
       }, []
     )
-    const [message, setMessage] = useState("")
 
     return (
       <Router>

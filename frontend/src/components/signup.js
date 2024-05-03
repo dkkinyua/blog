@@ -2,12 +2,14 @@ import React, { useState } from 'react'
 import { Alert, Form, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
 const Signup = () => {
 
     const { register, reset, handleSubmit, formState: { errors } } = useForm()
     const [show, setShow] = useState()
     const [serverResponse, setServerResponse] = useState("")
+    const navigate = useNavigate()
 
     const submitForm = (data) => {
         if (data.password === data.confirmPassword) {
@@ -35,8 +37,10 @@ const Signup = () => {
                         setServerResponse(data.error);
                         setShow(true);
                     }
+                    navigate("/login")
                 })
                 .catch(err => console.log(err));
+
     
             reset();
         } else {
@@ -100,6 +104,9 @@ const Signup = () => {
                         {errors.confirmPassword && <span className='errors'>This field is required</span>}
                         <br />
                         {errors.confirmPassword && errors.confirmPassword.type === "minLength" && <span className='errors'>Minimum characters required are 8.</span>}
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Text className='text-muted'>For a strong password, use a mix of capital letters, special characters and numbers(0,1,2,3,4,5,6,7,8,9,/,!,@,#,$,%,&,/).</Form.Text>
                     </Form.Group>
                     <Form.Group className='mt-2'>
                         <Button as='sub' variant='primary' onClick={handleSubmit(submitForm)}>Sign Up</Button>
