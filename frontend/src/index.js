@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import ReactDOM from 'react-dom'
 import {
   BrowserRouter as Router,
@@ -17,31 +17,20 @@ import Home from "./components/home";
 
 const App = () => {
 
-    useEffect(
-      () => {
-        fetch("/posts/hello")
-        .then(response => response.json())
-        .then(data => {console.log(data)
-            setMessage(data.message)
-        })
-        .catch(err => console.log(err))
-      }, []
-    )
-
-    return (
-      <Router>
-        <div>
-          <NavBar/>
-          <Routes>
-            <Route path="/" element={<Home/>} />
-            <Route path="/signup" element={<Signup/>} />
-            <Route path="/login" element={<Login/>} />
-            <Route path="/posts" element={<PostPage/>} />
-          </Routes>
-        </div>
-      </Router>
-    )
+  return (
+    <Router>
+      <div>
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/posts" element={<PostPage />} />
+        </Routes>
+      </div>
+    </Router>
+  )
 }
 
-ReactDOM.render(<App/>, document.getElementById("root"))
+ReactDOM.render(<App />, document.getElementById("root"))
 
