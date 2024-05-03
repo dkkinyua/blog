@@ -76,6 +76,18 @@ class LoginResource(Resource):
                 }
             )
         
+        if user_db.password != password:
+            return jsonify({
+                "message": "Wrong Password"
+            })
+        
+        else:
+            return jsonify(
+                {
+                    "message": f"User {username} doesn't exist. Try another username or password, or try creating an account."
+                }
+            )
+        
 # Refresh tokens route
 @auth_namespace.route("/refresh")
 class RefreshTokenResource(Resource):

@@ -27,6 +27,12 @@ class HelloResource(Resource):
 @post_namespace.route("/post")
 class PostResource(Resource):
     @jwt_required()
+    @post_namespace.marshal_list_with(post_model)
+    def get(self):
+        get_all_posts = Post.query.all()
+        return get_all_posts
+
+    @jwt_required()
     @post_namespace.marshal_with(post_model)
     @post_namespace.expect(post_model)
     def post(self):
