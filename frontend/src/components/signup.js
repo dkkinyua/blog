@@ -11,35 +11,39 @@ const Signup = () => {
 
     const submitForm = (data) => {
         if (data.password === data.confirmPassword) {
-
             const body = {
                 username: data.username,
                 email: data.email,
                 password: data.password
-            }
-
+            };
+    
             const requestOptions = {
                 method: "POST",
                 headers: {
                     "content-type": "application/json"
                 },
                 body: JSON.stringify(body)
-            }
-
+            };
+    
             fetch("/auth/signup", requestOptions)
                 .then(res => res.json())
                 .then(data => {
-                    setServerResponse(data.message)
-                    setShow(true)
+                    if (data.success) { // Check if the response indicates success
+                        setServerResponse(data.message);
+                        setShow(true);
+                    } else {
+                        setServerResponse(data.error);
+                        setShow(true);
+                    }
                 })
-                .catch(err => console.log(err))
-
-            reset()
+                .catch(err => console.log(err));
+    
+            reset();
+        } else {
+            alert("Passwords do not match.");
         }
-        else {
-            alert("Passwords do not match.")
-        }
-    }
+    };
+    
     return (
         <div className='signup-container-class'>
             <div className='form mt-3'>
