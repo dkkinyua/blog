@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../auth';
+import Post from './post';
 
 const Home = () => {
 
@@ -30,11 +31,27 @@ const Home = () => {
     }
 
     const LoggedHome = () => {
+        const [posts, setPosts] = useState([])
+
+        useEffect(
+            (posts) => {
+                fetch("/posts/post")
+                .then(r => r.json())
+                .then(data => {
+                    setPosts(data)
+                })
+                .catch(e => console.log(e))
+            }, []
+        )
         return (
             <div className='container mt-2'>
-                <h1>
-                    All your posts will be shown here, in a moment.
-                </h1>
+                {
+                posts.map(
+                    (posts) => (
+                        <Post title={posts.title} content={posts.title}/>
+                    )
+                )
+                }
             </div>
         )
     }
