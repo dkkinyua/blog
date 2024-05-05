@@ -3,7 +3,7 @@ import React from 'react';
 
 const Post = ({ title, content }) => {
     return (
-        <div className='container'>
+        <div className='container rounded-div mt-2'>
             <h2>
                 {title}
             </h2>

@@ -1,6 +1,6 @@
 .signup-container-class {
-    background: linear-gradient(to right, #007bff, #6c757d); /* Blue to Grey gradient */
-    background-size: cover; /* Cover the entire container */
+    background: linear-gradient(to right, #007bff, #6c757d); 
+    background-size: cover; 
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -8,8 +8,8 @@
 }
 
 .login-container-class {
-    background: linear-gradient(to right, #191970, #6c757d); /* Blue to Grey gradient */
-    background-size: cover; /* Cover the entire container */
+    background: linear-gradient(to right, #191970, #6c757d); 
+    background-size: cover; 
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -18,20 +18,20 @@
 
 
 .form {
-    background-color: #ffffff; /* White background for the form */
+    background-color: #ffffff; 
     border-radius: 15px;
     padding: 20px;
     width: 400px;
-    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5); /* Grey box shadow */
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5); 
 }
 
 .header {
-    color: #007bff; /* Blue header color */
+    color: #007bff;
     text-align: center;
 }
 
 .errors {
-    color: red; /* Red color for error messages */
+    color: red; 
 }
 
 .content-container-class {
@@ -40,3 +40,10 @@
     border-radius: 10px;
     padding: 10px;
 }
+
+.rounded-div {
+    background-color: #FAF9F6;
+    border-radius: 10px; 
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+  }
