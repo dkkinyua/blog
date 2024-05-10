@@ -48,7 +48,7 @@ const Home = () => {
                 {
                 posts.map(
                     (posts) => (
-                        <Post title={posts.title} content={posts.title}/>
+                        <Post title={posts.title} content={posts.content}/>
                     )
                 )
                 }
