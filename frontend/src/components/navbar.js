@@ -46,7 +46,7 @@ function Navbar() {
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
             <div className="container-fluid">
-                <Link className="navbar-brand" to="#">Blooog</Link>
+                <Link className="navbar-brand" to="/">Blooog</Link>
                 <button className="navbar-toggler" type="button" onClick={toggleNavbar}>
                     <span className="navbar-toggler-icon"></span>
                 </button>

@@ -43,6 +43,7 @@ const Home = () => {
                 .catch(e => console.log(e))
             }, []
         )
+        
         return (
             <div className='container mt-2'>
                 {
