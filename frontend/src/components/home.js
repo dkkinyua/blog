@@ -34,7 +34,7 @@ const Home = () => {
         const [posts, setPosts] = useState([])
 
         useEffect(
-            (posts) => {
+            () => {
                 fetch("/posts/post")
                 .then(r => r.json())
                 .then(data => {

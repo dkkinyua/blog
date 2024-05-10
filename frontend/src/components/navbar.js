@@ -17,24 +17,26 @@ function Navbar() {
                     <Link className="nav-link" to="/posts">Create Post</Link>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link" to="/posts" onClick={() => { logout() }}>Logout</a>
+                    <Link className="nav-link" to="/posts" onClick={() => { logout() }}>Logout</Link>
                 </li>
             </>
         )
     }
 
     const LoggedOutLinks = () => {
-        <>
-            <li className="nav-item">
-                <Link className="nav-link active" aria-current="page" to="/">Home</Link>
-            </li>
-            <li className="nav-item">
-                <Link className="nav-link" to="/login">Login</Link>
-            </li>
-            <li className="nav-item">
-                <Link className="nav-link" to="/signup">Signup</Link>
-            </li>
-        </>
+        return (
+            <>
+                <li className="nav-item">
+                    <Link className="nav-link active" aria-current="page" to="/">Home</Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" to="/login">Login</Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" to="/signup">Signup</Link>
+                </li>
+            </>
+        )
     }
 
     const toggleNavbar = () => {
@@ -50,7 +52,7 @@ function Navbar() {
                 </button>
                 <div className={`collapse navbar-collapse ${isNavbarCollapsed ? '' : 'show'}`} id="navbarNav">
                     <ul className="navbar-nav me-auto">
-                        {logged ? <LoggedLinks/> : <LoggedOutLinks/>}
+                        {logged ? <LoggedLinks /> : <LoggedOutLinks />}
                     </ul>
                 </div>
             </div>
