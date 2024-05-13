@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Button, Container, Row, Col } from 'react-bootstrap';
+import { Form, Modal, Button, Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../auth';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import Post from './create_post';
 
 const Home = () => {
 
-    const [show, setShow] = useState()
-
     const logged = useAuth()
-    const closeModal = () => {
-        setShow(false)
-    }
-
-    const openModal = () => {
-        setShow(true)
-    }
 
     const LoggedOffHome = () => {
         return (
@@ -41,6 +34,10 @@ const Home = () => {
 
     const LoggedHome = () => {
         const [posts, setPosts] = useState([])
+        const [show, setShow] = useState()
+        const [postId, setPostId] = useState(0)
+        const { register, handleSubmit, setValue, formState: { errors } } = useForm()
+        const navigate = useNavigate()
 
         useEffect(
             () => {
@@ -53,8 +50,46 @@ const Home = () => {
             }, []
         )
 
-        const updateModal = () => {
-            console.log("Updated.")
+        const closeModal = () => {
+            setShow(false)
+        }
+
+        const openModal = (id) => {
+            console.log(id)
+            setShow(true)
+            setPostId(id)
+
+            posts.forEach((post) => {
+                if (post.id === id) {
+                    setValue("title", posts.title);
+                    setValue("content", posts.content);
+                }
+            });
+        }
+
+        const updateModal = (data) => {
+            try {
+                const token = localStorage.getItem("REACT_TOKEN_AUTH_KEY")
+                const reload = window.location.reload()
+
+                const requestOptions = {
+                    method: "PUT",
+                    headers: {
+                        "content-type": "application/json",
+                        "Authorization": `Bearer ${JSON.parse(token)}`
+                    },
+                    body: JSON.stringify(data)
+                }
+    
+                fetch(`/posts/posts/${postId}`, requestOptions)
+                .then(r => r.json())
+                .then(data => {
+                    reload()
+                    navigate("/")
+                })
+            } catch (error) {
+                console.error()
+            }
         }
 
         return (
@@ -63,12 +98,30 @@ const Home = () => {
                     <Modal.Header closeButton>
                         <Modal.Title>Update Your Post</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+                    <Modal.Body>
+                        <Form>
+                            <Form.Group>
+                                <Form.Label>Title:</Form.Label>
+                                <Form.Control type='text' placeholder='Your title here'
+                                    {...register("title", { required: true })}
+                                />
+                                {errors.title && errors.title.type === "required" && <span className='errors'>This field is required</span>}
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Content:</Form.Label>
+                                <Form.Control type='textarea' placeholder='Update your content here'
+                                    {...register("content", { required: true })}
+                                    style={{ minHeight: "100px", padding: "6px" }}
+                                />
+                                {errors.content && errors.content.type === "required" && <span className='errors'>This field is required</span>}
+                            </Form.Group>
+                        </Form>
+                    </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={closeModal}>
                             Close
                         </Button>
-                        <Button variant="primary" onClick={updateModal}>
+                        <Button variant="primary" onClick={handleSubmit(updateModal)}>
                             Update
                         </Button>
                     </Modal.Footer>
@@ -76,8 +129,8 @@ const Home = () => {
 
                 {
                     posts.map(
-                        (posts) => (
-                            <Post title={posts.title} content={posts.content} onClick={() => openModal(true)} />
+                        (posts, index) => (
+                            <Post key={index} title={posts.title} content={posts.content} onClick={() => openModal(posts.id)} />
                         )
                     )
                 }
