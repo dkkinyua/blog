@@ -27,7 +27,7 @@ const PostPage = () => {
             fetch("/posts/post", requestOptions)
                 .then(r => r.json())
                 .then(data => {
-                    console.log(data)
+                    //console.log(data)
                     setShow(true)
                 })
         } catch {
@@ -69,7 +69,7 @@ const PostPage = () => {
                     />
                     {errors.content && errors.content.type === "required" && <span className='errors'>This field is required</span>}
                 </Form.Group>
-                <Button className='mt-2' as='sub' variant='success' onClick={handleSubmit(createPost)}>Post.</Button>
+                <Button className='mt-2' as='sub' variant='success' onClick={handleSubmit(createPost)}>Post</Button>
             </Form>
         </Container>
     )

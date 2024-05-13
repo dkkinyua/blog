@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Container, Row, Col } from 'react-bootstrap';
+import { Modal, Button, Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../auth';
-import Post from './post';
+import Post from './create_post';
 
 const Home = () => {
 
+    const [show, setShow] = useState()
+
     const logged = useAuth()
+    const closeModal = () => {
+        setShow(false)
+    }
+
+    const openModal = () => {
+        setShow(true)
+    }
 
     const LoggedOffHome = () => {
         return (
@@ -36,22 +45,41 @@ const Home = () => {
         useEffect(
             () => {
                 fetch("/posts/post")
-                .then(r => r.json())
-                .then(data => {
-                    setPosts(data)
-                })
-                .catch(e => console.log(e))
+                    .then(r => r.json())
+                    .then(data => {
+                        setPosts(data)
+                    })
+                    .catch(e => console.log(e))
             }, []
         )
-        
+
+        const updateModal = () => {
+            console.log("Updated.")
+        }
+
         return (
             <div className='container mt-2'>
+                <Modal show={show} onHide={closeModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Update Your Post</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={closeModal}>
+                            Close
+                        </Button>
+                        <Button variant="primary" onClick={updateModal}>
+                            Update
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
                 {
-                posts.map(
-                    (posts) => (
-                        <Post title={posts.title} content={posts.content}/>
+                    posts.map(
+                        (posts) => (
+                            <Post title={posts.title} content={posts.content} onClick={() => openModal(true)} />
+                        )
                     )
-                )
                 }
             </div>
         )
