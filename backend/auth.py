@@ -7,6 +7,7 @@ from models import User
 
 auth_namespace = Namespace("auth", description="A namespace for authentication")
 
+# A user's model for serialization
 user_model = auth_namespace.model(
     "User",
     {
@@ -28,6 +29,7 @@ class SignupResource(Resource):
         db_email = User.query.filter_by(email=email).first()
         db_user = User.query.filter_by(username=username).first()
 
+    # Checks if the username entered by the user exists in the db
         if db_user is not None:
             return jsonify(
                     {
@@ -35,6 +37,7 @@ class SignupResource(Resource):
                     }
             )
         
+    # Checks if the email entered by the user exists in the db
         if db_email is not None:
             return jsonify(
                     {
@@ -65,6 +68,7 @@ class LoginResource(Resource):
         password = data.get("password")
         user_db = User.query.filter_by(username=username).first()
 
+    # This checks if the user in the db is equal to the password entered by the user and returns the access_token and refresh_token 
         if user_db and check_password_hash(user_db.password, password):
             access_token = create_access_token(identity=user_db.username)
             refresh_token = create_refresh_token(identity=user_db.username)
@@ -93,7 +97,7 @@ class LoginResource(Resource):
 class RefreshTokenResource(Resource):
     @jwt_required(refresh=True)
     def post(self):
-        current_user = get_jwt_identity()
+        current_user = get_jwt_identity() # This fetches the identity of the current user
         access_token = create_access_token(identity=current_user)
 
         return make_response(jsonify({

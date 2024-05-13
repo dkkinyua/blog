@@ -5,6 +5,7 @@ from models import Post
 
 post_namespace = Namespace("posts", description="A namespace for post routes")
 
+# A post's model for serialization
 post_model = post_namespace.model(
     "Post", 
     {
@@ -14,7 +15,7 @@ post_model = post_namespace.model(
     }
 )
 
-
+# A route to test the API, returns hello after getting called
 @post_namespace.route("/hello")
 class HelloResource(Resource):
     def get(self):
@@ -24,13 +25,16 @@ class HelloResource(Resource):
 
         return message
     
+
 @post_namespace.route("/post")
 class PostResource(Resource):
+    # Returns all posts by all users
     @post_namespace.marshal_list_with(post_model)
     def get(self):
         get_all_posts = Post.query.all()
         return get_all_posts
 
+    # Posts the post by a user, protected as a user needs to login first to access this route
     @jwt_required()
     @post_namespace.marshal_with(post_model)
     @post_namespace.expect(post_model)
@@ -68,7 +72,7 @@ class PostsResource(Resource):
 
         return get_post
     
-    # Update a post
+    # Update a post, protected route
     @jwt_required()
     @post_namespace.marshal_with(post_model)
     @post_namespace.expect(post_model)
@@ -83,6 +87,7 @@ class PostsResource(Resource):
 
         return update_post
     
+    # Deletes the post, protected route
     @jwt_required()
     @post_namespace.marshal_with(post_model)
     @post_namespace.expect(post_model)
