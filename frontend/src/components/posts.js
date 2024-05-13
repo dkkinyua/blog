@@ -1,15 +1,12 @@
 import React, { useState } from 'react'
 import { Alert, Container, Form, Button } from 'react-bootstrap'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
-
 
 const PostPage = () => {
-    const { register, handleSubmit, reset, formState: { errors } } = useForm()
+    const { register, handleSubmit, formState: { errors } } = useForm()
     const [show, setShow] = useState()
 
     const token = localStorage.getItem("REACT_TOKEN_AUTH_KEY") // This is to get the access_token from localStorage as set in auth.js
-    const navigate = useNavigate()
 
     const createPost = (data) => {
         try {
@@ -32,7 +29,6 @@ const PostPage = () => {
                 .then(data => {
                     console.log(data)
                     setShow(true)
-                    navigate("/")
                 })
         } catch {
             throw console.error();
