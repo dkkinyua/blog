@@ -7,6 +7,7 @@ from models import User, Post
 from exts import db
 from auth import auth_namespace
 from posts import post_namespace
+from users import user_namespace
 
 
 
@@ -23,7 +24,7 @@ def create_app(config):
     api = Api(app, doc="/docs")
     api.add_namespace(auth_namespace)
     api.add_namespace(post_namespace)
-
+    api.add_namespace(user_namespace)
 
         
     @app.shell_context_processor
