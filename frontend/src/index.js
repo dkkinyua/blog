@@ -14,6 +14,7 @@ import Signup from "./components/signup";
 import Login from "./components/login";
 import PostPage from "./components/posts";
 import Home from "./components/home";
+import Account from "./components/account";
 
 const App = () => {
 
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/posts" element={<PostPage />} />
+          <Route path="/account" element={<Account />}/>
         </Routes>
       </div>
     </Router>

@@ -17,6 +17,9 @@ function Navbar() {
                     <Link className="nav-link" to="/posts">Create Post</Link>
                 </li>
                 <li className="nav-item">
+                    <Link className="nav-link" to="/account">Account</Link>
+                </li>
+                <li className="nav-item">
                     <Link className="nav-link" to="/posts" onClick={() => { logout() }}>Logout</Link>
                 </li>
             </>

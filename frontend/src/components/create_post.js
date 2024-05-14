@@ -1,10 +1,12 @@
 import React from 'react';
 import { Button } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 
-const Post = ({ title, content, onClick, onDelete }) => {
+const Post = ({ user, title, content, onClick, onDelete }) => {
     return (
         <div className='container rounded-div mt-2'>
+            <Link className='account-home mb-2' to="/account">Account</Link>
             <h2>
                 {title}
             </h2>
