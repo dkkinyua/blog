@@ -104,4 +104,28 @@ class RefreshTokenResource(Resource):
             "access_token": access_token
         }), 200)
 
+@auth_namespace.route("/users/<int:user_id>")
+class UsersResource(Resource):
+    @jwt_required()
+    @auth_namespace.marshal_with(user_model)
+    def get(self, user_id):
+        try:
+            current_user = get_jwt_identity()
+            details = User.query.filter_by(username=current_user).first()
 
+            if details.id == user_id:
+                return details, 200
+            
+            else:
+                return jsonify(
+                    {
+                        "msg": "Unauthorized entry"
+                    }
+                ), 403
+            
+        except Exception as e:
+            return jsonify(
+                {
+                    "msg": str(e)
+                }
+            )
