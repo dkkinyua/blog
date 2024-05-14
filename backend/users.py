@@ -77,3 +77,36 @@ class DetailsResource(Resource):
                     "msg": str(e)
                 }
             )
+    
+    #This functions permanently deletes the user from the database, protected route. In the frontend be sure to warn the user of this action.
+    @jwt_required()
+    @user_namespace.expect(user_model)
+    def delete(self, user_id):
+        try:
+            current_user = get_jwt_identity()
+            
+            details = User.query.filter_by(username=current_user).first()
+
+            if details.id == user_id:
+                details.delete()
+
+                return jsonify(
+                    {
+                        "msg": "User deleted"
+                    }
+                ), 200
+            
+            if not details.id:
+
+                return jsonify({
+                    "msg": "User doesnt exist!"
+                })
+
+        except Exception as e:
+            return jsonify(
+                {
+                    "msg": str(e)
+                }
+            )
+
+
