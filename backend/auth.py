@@ -68,29 +68,31 @@ class LoginResource(Resource):
         password = data.get("password")
         user_db = User.query.filter_by(username=username).first()
 
-    # This checks if the user in the db is equal to the password entered by the user and returns the access_token and refresh_token 
-        if user_db and check_password_hash(user_db.password, password):
-            access_token = create_access_token(identity=user_db.username)
-            refresh_token = create_refresh_token(identity=user_db.username)
-
-            return jsonify (
-                {
-                    "access_token": access_token,
-                    "refresh_token": refresh_token
-                }
-            )
-        
-        if user_db.password != password:
-            return jsonify({
-                "message": "Wrong Password"
-            })
-        
-        else:
+        # Check if user exists in the database
+        if user_db is None:
             return jsonify(
                 {
                     "message": f"User {username} doesn't exist. Try another username or password, or try creating an account."
                 }
             )
+
+        # Check if password is correct, and returns the msg if it's incorrect
+        if not check_password_hash(user_db.password, password):
+            return jsonify({
+                "message": "Wrong Password"
+            })
+
+        # If username and password are correct, generate tokens
+        access_token = create_access_token(identity=user_db.username)
+        refresh_token = create_refresh_token(identity=user_db.username)
+
+        return jsonify(
+            {
+                "access_token": access_token,
+                "refresh_token": refresh_token
+            }
+        )
+
         
 # Refresh tokens route
 @auth_namespace.route("/refresh")
