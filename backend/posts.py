@@ -51,6 +51,16 @@ class PostResource(Resource):
         new_post.save()
         return new_post, 201
 
+@post_namespace.route("/post/<int:user_id>")
+class GetPostResource(Resource):
+    @jwt_required()
+    @post_namespace.marshal_list_with(post_model)
+    # Get all posts by a user
+    def get(self, user_id):
+        get_posts = Post.query.filter_by(user_id=user_id).all()
+        return get_posts
+
+
 
 @post_namespace.route("/posts/<int:id>")
 class PostsResource(Resource):    

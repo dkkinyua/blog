@@ -119,20 +119,23 @@ class DetailsResource(Resource):
                 }
             )
 
-# This API resource is used to map all the posts by a user, and returning them as a list.
 @user_namespace.route("/posts/<int:user_id>")
 class PostResource(Resource):
     @jwt_required()
     @user_namespace.marshal_list_with(post_model)
     def get(self, user_id):
         try:
-            current_user = get_jwt_identity() #Fetches the current user of the session {username}
+            current_user = get_jwt_identity()
             details = User.query.filter_by(username=current_user).first()
 
-            if details.id == user_id:
-                user_posts = Post.query.get_or_404(user_id=details.id)
+            if details.id != user_id:
+                return jsonify({
+                    "msg": "Unauthorized call"
+                }), 403
 
-                return user_posts
+            user_posts = Post.query.filter_by(user_id=details.id).all()
+
+            return user_posts
 
         except Exception as e:
             return jsonify({
